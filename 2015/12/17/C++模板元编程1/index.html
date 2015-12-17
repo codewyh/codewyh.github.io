@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>std::move与std::forward | Laziness Impatience Hubris</title>
+    <title>C++模板元编程1 | Laziness Impatience Hubris</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Wei Yuhao">
     
 
     
-    <meta name="description" content="在老版C++中，临时变量（称为右值”R-values”）经常用作交换两个变量。比如下面例子中的tmp变量，这个函数需要传递两个string引用，但在交换的过程中需要一个临时的对象tmp，这样就造成了对象的构造，内存的分配还有对象的拷贝构造等动作，成本比较高。12345void Swap(string &amp;amp;a, string &amp;amp;b) &amp;#123;    string tmp = a;">
+    <meta name="description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12template&amp;lt;class T&amp;gt; class Foo;templat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="std::move与std::forward">
-<meta property="og:url" content="http://yoursite.com/2015/12/14/std-move与std-forward/index.html">
+<meta property="og:title" content="C++模板元编程1">
+<meta property="og:url" content="http://yoursite.com/2015/12/17/C++模板元编程1/index.html">
 <meta property="og:site_name" content="Laziness Impatience Hubris">
-<meta property="og:description" content="在老版C++中，临时变量（称为右值”R-values”）经常用作交换两个变量。比如下面例子中的tmp变量，这个函数需要传递两个string引用，但在交换的过程中需要一个临时的对象tmp，这样就造成了对象的构造，内存的分配还有对象的拷贝构造等动作，成本比较高。12345void Swap(string &amp;amp;a, string &amp;amp;b) &amp;#123;    string tmp = a;">
-<meta property="og:updated_time" content="2015-12-14T10:53:19.000Z">
+<meta property="og:description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12template&amp;lt;class T&amp;gt; class Foo;templat">
+<meta property="og:updated_time" content="2015-12-17T05:32:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="std::move与std::forward">
-<meta name="twitter:description" content="在老版C++中，临时变量（称为右值”R-values”）经常用作交换两个变量。比如下面例子中的tmp变量，这个函数需要传递两个string引用，但在交换的过程中需要一个临时的对象tmp，这样就造成了对象的构造，内存的分配还有对象的拷贝构造等动作，成本比较高。12345void Swap(string &amp;amp;a, string &amp;amp;b) &amp;#123;    string tmp = a;">
+<meta name="twitter:title" content="C++模板元编程1">
+<meta name="twitter:description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12template&amp;lt;class T&amp;gt; class Foo;templat">
 
     
     <link rel="alternative" href="/atom.xml" title="Laziness Impatience Hubris" type="application/atom+xml">
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/12/14/std-move与std-forward/" title="std::move与std::forward" itemprop="url">std::move与std::forward</a>
+      <a href="/2015/12/17/C++模板元编程1/" title="C++模板元编程1" itemprop="url">C++模板元编程1</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Wei Yuhao" target="_blank" itemprop="author">Wei Yuhao</a>
 		
   <p class="article-time">
-    <time datetime="2015-12-14T08:32:44.000Z" itemprop="datePublished"> 发表于 2015-12-14</time>
+    <time datetime="2015-12-17T03:53:22.000Z" itemprop="datePublished"> 发表于 2015-12-17</time>
     
   </p>
 </header>
@@ -96,20 +96,14 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#std_3A_3Amove"><span class="toc-number">1.</span> <span class="toc-text">std::move</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std_3A_3Aforward_u8F6C_u53D1"><span class="toc-number">2.</span> <span class="toc-text">std::forward转发</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C++_template_u673A_u5236_u81EA_u8EAB_u662F_u56FE_u7075_u5B8C_u5907_u7684_uFF1A_u5B83_u53EF_u4EE5_u88AB_u7528_u6765_u8BA1_u7B97_u4EFB_u4F55_u53EF_u8BA1_u7B97_u7684_u503C_u3002_u4E8E_u662F_u5C31_u6709_u4E86_u6A21_u677F_u5143_u7F16_u7A0B_28template_metaprogramming_29_uFF0C_u53EF_u4EE5_u7F16_u5199_u51FA_u201D_u5728C++_u7F16_u8BD1_u671F_u95F4_u6267_u884C_u5E76_u5728_u7F16_u8BD1_u7ED3_u675F_u65F6_u505C_u6B62_u201D_u7684_u7A0B_u5E8F_u3002"><span class="toc-number">1.</span> <span class="toc-text">C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5173_u4E8Etypename_u7684_u53E6_u4E00_u79CD_u610F_u4E49"><span class="toc-number">2.</span> <span class="toc-text">关于typename的另一种意义</span></a></li></ol>
 		
 		</div>
 		
-		<p>在老版C++中，临时变量（称为右值”R-values”）经常用作交换两个变量。比如下面例子中的tmp变量，这个函数需要传递两个string引用，但在交换的过程中需要一个临时的对象tmp，这样就造成了对象的构造，内存的分配还有对象的拷贝构造等动作，成本比较高。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Swap</span><span class="params">(<span class="built_in">string</span> &amp;a, <span class="built_in">string</span> &amp;b)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> tmp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>C++ 11增加了一个新的引用类型–右值引用,通过typename &amp;&amp;来定义。他们能够以non-const值的方式传入，允许对象去修改他们。<br>在上面的例子中，string保存了一个动态内存分配的char<em>指针，如果一个string对象发生拷贝构造，只能构造一个新的临时对象，并把源对象的内存拷贝到新的对象里，然后销毁临时对象及其内存。这样会造成性能的问题。<br>通过右值引用，string的构造函数需要改成”move构造函数”，如下所示。这样的话，对某个string的右值引用就可以单纯的从右值复制其内部的char</em>指针到新的string，然后留下空的右值。这个操作不需要内存数组的复制，而且空的暂时对象的析构并不会释放内存，这样就提高了效率。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="built_in">string</span> (<span class="built_in">string</span>&amp;&amp;);</span><br><span class="line">    <span class="built_in">string</span>&amp;&amp; <span class="keyword">operator</span> = (<span class="built_in">string</span>&amp;&amp;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h3 id="std_3A_3Amove"><a href="#std_3A_3Amove" class="headerlink" title="std::move"></a>std::move</h3><p>定义在头文件<utility>中：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> T &gt;</span><br><span class="line"><span class="keyword">typename</span> <span class="built_in">std</span>::remove_reference&lt;T&gt;::<span class="function">type&amp;&amp; <span class="title">move</span><span class="params">( T&amp;&amp; t )</span> <span class="keyword">noexcept</span> </span>;              <span class="comment">//(C++11 - C++14)</span></span><br></pre></td></tr></table></figure></utility></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> T &gt;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">typename</span> <span class="built_in">std</span>::remove_reference&lt;T&gt;::<span class="function">type&amp;&amp; <span class="title">move</span><span class="params">( T&amp;&amp; t )</span> <span class="keyword">noexcept</span> </span>;    <span class="comment">//(C++14 - )</span></span><br></pre></td></tr></table></figure>
-<p>std::move返回指向实参的右值引用，并将实参转化为将亡值(xvalue, eXpiring Value)。</p>
-<h3 id="std_3A_3Aforward_u8F6C_u53D1"><a href="#std_3A_3Aforward_u8F6C_u53D1" class="headerlink" title="std::forward转发"></a>std::forward转发</h3><p>定义在头文件<utility>中：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> T &gt;</span><br><span class="line"><span class="function">T&amp;&amp; <span class="title">forward</span><span class="params">( <span class="keyword">typename</span> <span class="built_in">std</span>::remove_reference&lt;T&gt;::type&amp; t )</span> <span class="keyword">noexcept</span> </span>;              <span class="comment">//(1)     (C++11 - C++14)</span></span><br></pre></td></tr></table></figure></utility></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> T &gt;</span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> T&amp;&amp; <span class="title">forward</span><span class="params">( <span class="keyword">typename</span> <span class="built_in">std</span>::remove_reference&lt;T&gt;::type&amp; t )</span> <span class="keyword">noexcept</span> </span>;    <span class="comment">//(1)     (C++14 - )</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> T &gt;</span><br><span class="line"><span class="function">T&amp;&amp; <span class="title">forward</span><span class="params">( <span class="keyword">typename</span> <span class="built_in">std</span>::remove_reference&lt;T&gt;::type&amp;&amp; t )</span> <span class="keyword">noexcept</span> </span>;            <span class="comment">// (2)     (C++11 - C++14)</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> T &gt;</span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> T&amp;&amp; <span class="title">forward</span><span class="params">( <span class="keyword">typename</span> <span class="built_in">std</span>::remove_reference&lt;T&gt;::type&amp;&amp; t )</span> <span class="keyword">noexcept</span> </span>;   <span class="comment">//(2)     (C++14 - )</span></span><br></pre></td></tr></table></figure>
-<p>TODO</p>
+		<h2 id="C++_template_u673A_u5236_u81EA_u8EAB_u662F_u56FE_u7075_u5B8C_u5907_u7684_uFF1A_u5B83_u53EF_u4EE5_u88AB_u7528_u6765_u8BA1_u7B97_u4EFB_u4F55_u53EF_u8BA1_u7B97_u7684_u503C_u3002_u4E8E_u662F_u5C31_u6709_u4E86_u6A21_u677F_u5143_u7F16_u7A0B_28template_metaprogramming_29_uFF0C_u53EF_u4EE5_u7F16_u5199_u51FA_u201D_u5728C++_u7F16_u8BD1_u671F_u95F4_u6267_u884C_u5E76_u5728_u7F16_u8BD1_u7ED3_u675F_u65F6_u505C_u6B62_u201D_u7684_u7A0B_u5E8F_u3002"><a href="#C++_template_u673A_u5236_u81EA_u8EAB_u662F_u56FE_u7075_u5B8C_u5907_u7684_uFF1A_u5B83_u53EF_u4EE5_u88AB_u7528_u6765_u8BA1_u7B97_u4EFB_u4F55_u53EF_u8BA1_u7B97_u7684_u503C_u3002_u4E8E_u662F_u5C31_u6709_u4E86_u6A21_u677F_u5143_u7F16_u7A0B_28template_metaprogramming_29_uFF0C_u53EF_u4EE5_u7F16_u5199_u51FA_u201D_u5728C++_u7F16_u8BD1_u671F_u95F4_u6267_u884C_u5E76_u5728_u7F16_u8BD1_u7ED3_u675F_u65F6_u505C_u6B62_u201D_u7684_u7A0B_u5E8F_u3002" class="headerlink" title="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。"></a>C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。</h2><h2 id="u5173_u4E8Etypename_u7684_u53E6_u4E00_u79CD_u610F_u4E49"><a href="#u5173_u4E8Etypename_u7684_u53E6_u4E00_u79CD_u610F_u4E49" class="headerlink" title="关于typename的另一种意义"></a>关于typename的另一种意义</h2><p>一般的，在以下的声明中，class和typename是没有什么不同的:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt; <span class="keyword">class</span> Foo;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class</span> Foo;</span><br></pre></td></tr></table></figure></p>
+<p>然而C++并不总是把class和typename视为等价。有时候必须要使用typename。我们先来看一个例子，对于下面的函数foo，接收一个C类型的容器：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> C&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">const</span> C&amp; container)</span> </span>&#123;</span><br><span class="line">    C::const_iterator* x;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看起来我们好像声明了一个本地变量x，它是一个指向C::const_iterator类型的指针。我们之所以这样认为是因为我们已经知道C::const_iterator是个类型。但如果C::const_iterator不是一个类型呢？如果C刚好有一个static成员变量被命名为const_iterator，而x碰巧是个global变量名字呢？这样的话上面的代码就是一个相乘动作：C::const_iterator乘以x。这完全是有可能的。<br>在我们知道C是什么类型之前，是没有办法知道C::const_iterator是否是一个类型的。编译器开始解析template foo的时候，也不知道C是什么，C++有个规则可以解析(resolve)这个歧义状态：<strong>如果解析器在template中遭遇一个嵌套从属名称时，它就假设这个名称不是一个类型，除非你告诉它是</strong>。所以默认情况下嵌套从属名称不是类型。这个规则有个例外，后面会提到。<br>刚刚出现了一个名词”嵌套从属名称”，现在来解释一下：template内出现的名称如果依赖于某个template参数，就称之为从属名称（dependent name）。如果从属名称在class内成嵌套状，就称他为嵌套从属名称（nested dependent name)。C::const_iterator就是一个从属名称，而且还是个嵌套从属类型名称（nested dependent type name），也就是个嵌套从属名称并且是某个类型。<br>对于上面的代码，如果希望它按我们的意愿去表达，就需要告诉编译器C::const_iterator是一个类型。只要在它前面加上关键字typename即可：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> C&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">const</span> C&amp; container)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">typename</span> C::const_iterator *x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一般性规则很简单：<strong>任何时候当你想要在template中使用一个嵌套从属类型名称时，就必须在紧邻它之前的位置加上关键字typename</strong></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -118,7 +112,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/C-11/">C++11</a>
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/Template/">Template</a>
   </div>
 
 </div>
@@ -127,7 +121,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2015/12/14/std-move与std-forward/" data-title="std::move与std::forward | Laziness Impatience Hubris" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2015/12/17/C++模板元编程1/" data-title="C++模板元编程1 | Laziness Impatience Hubris" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,19 +134,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/12/17/C++模板元编程1/" title="C++模板元编程1">
-  <strong>上一篇：</strong><br/>
-  <span>
-  C++模板元编程1</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/12/14/hello-world/"  title="Hello World">
+<a href="/2015/12/14/std-move与std-forward/"  title="std::move与std::forward">
  <strong>下一篇：</strong><br/> 
- <span>Hello World
+ <span>std::move与std::forward
 </span>
 </a>
 </div>
@@ -167,7 +153,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#std_3A_3Amove"><span class="toc-number">1.</span> <span class="toc-text">std::move</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std_3A_3Aforward_u8F6C_u53D1"><span class="toc-number">2.</span> <span class="toc-text">std::forward转发</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C++_template_u673A_u5236_u81EA_u8EAB_u662F_u56FE_u7075_u5B8C_u5907_u7684_uFF1A_u5B83_u53EF_u4EE5_u88AB_u7528_u6765_u8BA1_u7B97_u4EFB_u4F55_u53EF_u8BA1_u7B97_u7684_u503C_u3002_u4E8E_u662F_u5C31_u6709_u4E86_u6A21_u677F_u5143_u7F16_u7A0B_28template_metaprogramming_29_uFF0C_u53EF_u4EE5_u7F16_u5199_u51FA_u201D_u5728C++_u7F16_u8BD1_u671F_u95F4_u6267_u884C_u5E76_u5728_u7F16_u8BD1_u7ED3_u675F_u65F6_u505C_u6B62_u201D_u7684_u7A0B_u5E8F_u3002"><span class="toc-number">1.</span> <span class="toc-text">C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5173_u4E8Etypename_u7684_u53E6_u4E00_u79CD_u610F_u4E49"><span class="toc-number">2.</span> <span class="toc-text">关于typename的另一种意义</span></a></li></ol>
  
   </div>
 
