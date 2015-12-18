@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>C++模板元编程(一) | Laziness Impatience Hubris</title>
+    <title>C++模板(一) | Laziness Impatience Hubris</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Wei Yuhao">
     
 
     
-    <meta name="description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。
-关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12template&amp;lt;class T&amp;gt; class Foo;templa">
+    <meta name="description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。这几篇博客主要用来记录一些模板的基础知识，后面再写一些关于模板元编程的东西。
+关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12te">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++模板元编程(一)">
-<meta property="og:url" content="http://yoursite.com/2015/12/17/C++模板元编程1/index.html">
+<meta property="og:title" content="C++模板(一)">
+<meta property="og:url" content="http://yoursite.com/2015/12/17/C++模板1/index.html">
 <meta property="og:site_name" content="Laziness Impatience Hubris">
-<meta property="og:description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。
-关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12template&amp;lt;class T&amp;gt; class Foo;templa">
-<meta property="og:updated_time" content="2015-12-17T06:46:12.000Z">
+<meta property="og:description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。这几篇博客主要用来记录一些模板的基础知识，后面再写一些关于模板元编程的东西。
+关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12te">
+<meta property="og:updated_time" content="2015-12-18T08:29:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++模板元编程(一)">
-<meta name="twitter:description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。
-关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12template&amp;lt;class T&amp;gt; class Foo;templa">
+<meta name="twitter:title" content="C++模板(一)">
+<meta name="twitter:description" content="C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。这几篇博客主要用来记录一些模板的基础知识，后面再写一些关于模板元编程的东西。
+关于typename的另一种意义一般的，在以下的声明中，class和typename是没有什么不同的:12te">
 
     
     <link rel="alternative" href="/atom.xml" title="Laziness Impatience Hubris" type="application/atom+xml">
@@ -83,7 +83,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/12/17/C++模板元编程1/" title="C++模板元编程(一)" itemprop="url">C++模板元编程(一)</a>
+      <a href="/2015/12/17/C++模板1/" title="C++模板(一)" itemprop="url">C++模板(一)</a>
   </h1>
   <p class="article-author">By
        
@@ -103,11 +103,16 @@
 		
 		</div>
 		
-		<p>C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。</p>
+		<p>C++ template机制自身是图灵完备的：它可以被用来计算任何可计算的值。于是就有了模板元编程(template metaprogramming)，可以编写出”在C++编译期间执行并在编译结束时停止”的程序。<br>这几篇博客主要用来记录一些模板的基础知识，后面再写一些关于模板元编程的东西。</p>
 <h2 id="u5173_u4E8Etypename_u7684_u53E6_u4E00_u79CD_u610F_u4E49"><a href="#u5173_u4E8Etypename_u7684_u53E6_u4E00_u79CD_u610F_u4E49" class="headerlink" title="关于typename的另一种意义"></a>关于typename的另一种意义</h2><p>一般的，在以下的声明中，class和typename是没有什么不同的:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt; <span class="keyword">class</span> Foo;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class</span> Foo;</span><br></pre></td></tr></table></figure></p>
 <p>然而C++并不总是把class和typename视为等价。有时候必须要使用typename。我们先来看一个例子，对于下面的函数foo，接收一个C类型的容器：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> C&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">const</span> C&amp; container)</span> </span>&#123;</span><br><span class="line">    C::const_iterator* x;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>看起来我们好像声明了一个本地变量x，它是一个指向C::const_iterator类型的指针。我们之所以这样认为是因为我们已经知道C::const_iterator是个类型。但如果C::const_iterator不是一个类型呢？如果C刚好有一个static成员变量被命名为const_iterator，而x碰巧是个global变量名字呢？这样的话上面的代码就是一个相乘动作：C::const_iterator乘以x。这完全是有可能的。<br>在我们知道C是什么类型之前，是没有办法知道C::const_iterator是否是一个类型的。编译器开始解析template foo的时候，也不知道C是什么，C++有个规则可以解析(resolve)这个歧义状态：<strong>如果解析器在template中遭遇一个嵌套从属名称时，它就假设这个名称不是一个类型，除非你告诉它是</strong>。所以默认情况下嵌套从属名称不是类型。这个规则有个例外，后面会提到。<br>刚刚出现了一个名词”嵌套从属名称”，现在来解释一下：template内出现的名称如果依赖于某个template参数，就称之为从属名称（dependent name）。如果从属名称在class内成嵌套状，就称他为嵌套从属名称（nested dependent name)。C::const_iterator就是一个从属名称，而且还是个嵌套从属类型名称（nested dependent type name），也就是个嵌套从属名称并且是某个类型。<br>对于上面的代码，如果希望它按我们的意愿去表达，就需要告诉编译器C::const_iterator是一个类型。只要在它前面加上关键字typename即可：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> C&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">const</span> C&amp; container)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">typename</span> C::const_iterator *x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>一般性规则很简单：<strong>任何时候当你想要在template中使用一个嵌套从属类型名称时，就必须在紧邻它之前的位置加上关键字typename</strong>。这个规则的例外是typename不可以出现在base classes list内的嵌套从属类型名称之前，也不能在member initialization list(成员初始列表)中出现。例如：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt;</span><br><span class="line">class Derived: public Base&lt;T&gt;::Nested &#123;         //不允许typename</span><br><span class="line">    public:</span><br><span class="line">    explicit Derived(int x)</span><br><span class="line">    : Base&lt;T&gt;::Nested(x) &#123;                     //不允许typename</span><br><span class="line">        typename Base&lt;T&gt;::Nested tmp;         //需要加上typename</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>简而言之</p>
+<ul>
+<li>在声明template参数时，前缀关键字class和typename是没有区别的。</li>
+<li>是在用嵌套从属类型名称时需要使用关键字typename来标识；但不要在基类列表和成员初始化列表内使用typename修饰基类。</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -116,7 +121,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/Template/">Template</a>
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/C-Template/">C++Template</a>
   </div>
 
 </div>
@@ -125,7 +130,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2015/12/17/C++模板元编程1/" data-title="C++模板元编程(一) | Laziness Impatience Hubris" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2015/12/17/C++模板1/" data-title="C++模板(一) | Laziness Impatience Hubris" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,7 +156,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/12/17/C++模板元编程1/" data-title="C++模板元编程(一)" data-url="http://yoursite.com/2015/12/17/C++模板元编程1/"></div>
+	<div class="ds-thread" data-thread-key="2015/12/17/C++模板1/" data-title="C++模板(一)" data-url="http://yoursite.com/2015/12/17/C++模板1/"></div>
 </section>
 
 
@@ -181,7 +186,7 @@
 			
 		
 			
-				<li><a href="/tags/Template/" title="Template">Template<sup>1</sup></a></li>
+				<li><a href="/tags/C-Template/" title="C++Template">C++Template<sup>1</sup></a></li>
 			
 		
 			
