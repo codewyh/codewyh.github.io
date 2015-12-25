@@ -4,26 +4,38 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | Laziness Impatience Hubris</title>
+    <title>C++并发编程 零 | Laziness Impatience Hubris</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Wei Yuhao">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="最近在做C++并发编程相关的东西，看到C++11加入了不少好用的东西，就写点博客记录下来。
+C++11 加入多线程支持C++11标准开始支持多线程编程，在之前多线程都需要系统支持，比如*nix下的pthread相关。这次主要提供了以下几个头文件：
+
+&amp;lt; thread&amp;gt;：包含了std::thread类，以及this_thread命名空间下的yield(),get_id()等方法
+
+&amp;lt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2015/12/14/hello-world/index.html">
+<meta property="og:title" content="C++并发编程 零">
+<meta property="og:url" content="http://yoursite.com/2015/12/25/C-并发编程-零/index.html">
 <meta property="og:site_name" content="Laziness Impatience Hubris">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-12-14T05:55:16.000Z">
+<meta property="og:description" content="最近在做C++并发编程相关的东西，看到C++11加入了不少好用的东西，就写点博客记录下来。
+C++11 加入多线程支持C++11标准开始支持多线程编程，在之前多线程都需要系统支持，比如*nix下的pthread相关。这次主要提供了以下几个头文件：
+
+&amp;lt; thread&amp;gt;：包含了std::thread类，以及this_thread命名空间下的yield(),get_id()等方法
+
+&amp;lt">
+<meta property="og:updated_time" content="2015-12-25T09:55:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="C++并发编程 零">
+<meta name="twitter:description" content="最近在做C++并发编程相关的东西，看到C++11加入了不少好用的东西，就写点博客记录下来。
+C++11 加入多线程支持C++11标准开始支持多线程编程，在之前多线程都需要系统支持，比如*nix下的pthread相关。这次主要提供了以下几个头文件：
+
+&amp;lt; thread&amp;gt;：包含了std::thread类，以及this_thread命名空间下的yield(),get_id()等方法
+
+&amp;lt">
 
     
     <link rel="alternative" href="/atom.xml" title="Laziness Impatience Hubris" type="application/atom+xml">
@@ -83,14 +95,14 @@ Quick">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/12/14/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2015/12/25/C-并发编程-零/" title="C++并发编程 零" itemprop="url">C++并发编程 零</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Wei Yuhao" target="_blank" itemprop="author">Wei Yuhao</a>
 		
   <p class="article-time">
-    <time datetime="2015-12-14T05:55:16.000Z" itemprop="datePublished"> 发表于 2015-12-14</time>
+    <time datetime="2015-12-25T09:54:19.000Z" itemprop="datePublished"> 发表于 2015-12-25</time>
     
   </p>
 </header>
@@ -99,25 +111,34 @@ Quick">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C++11__u52A0_u5165_u591A_u7EBF_u7A0B_u652F_u6301"><span class="toc-number">1.</span> <span class="toc-text">C++11 加入多线程支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5DF2_u5B8C_u6210_u7684_u8BB0_u5F55_u7D22_u5F15"><span class="toc-number">2.</span> <span class="toc-text">已完成的记录索引</span></a></li></ol>
 		
 		</div>
 		
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"Hello world\n"</span>);</span><br></pre></td></tr></table></figure>
-  
+		<p>最近在做C++并发编程相关的东西，看到C++11加入了不少好用的东西，就写点博客记录下来。</p>
+<h2 id="C++11__u52A0_u5165_u591A_u7EBF_u7A0B_u652F_u6301"><a href="#C++11__u52A0_u5165_u591A_u7EBF_u7A0B_u652F_u6301" class="headerlink" title="C++11 加入多线程支持"></a>C++11 加入多线程支持</h2><p>C++11标准开始支持多线程编程，在之前多线程都需要系统支持，比如*nix下的pthread相关。这次主要提供了以下几个头文件：</p>
+<ul>
+<li><p>&lt; thread&gt;：包含了std::thread类，以及this_thread命名空间下的yield(),get_id()等方法</p>
+</li>
+<li><p>&lt; mutex&gt;：包含了几种互斥锁，比如mutex,shared_mutex等；以及相关的方法</p>
+</li>
+<li><p>&lt; condition_variable&gt;：包含了条件变量相关的类</p>
+</li>
+<li><p>&lt; future&gt;：//这个应该是对异步操作的支持，后面看了再回来补充</p>
+</li>
+<li><p>&lt; atomic&gt; ：包含std::atomic和std::atomic_flag等，还有memory_order相关</p>
+</li>
+</ul>
+<h2 id="u5DF2_u5B8C_u6210_u7684_u8BB0_u5F55_u7D22_u5F15"><a href="#u5DF2_u5B8C_u6210_u7684_u8BB0_u5F55_u7D22_u5F15" class="headerlink" title="已完成的记录索引"></a>已完成的记录索引</h2>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/C-11/">C++11</a><a href="/tags/C-并发/">C++并发</a>
+  </div>
 
 </div>
 
@@ -125,7 +146,7 @@ Quick">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2015/12/14/hello-world/" data-title="Hello World | Laziness Impatience Hubris" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2015/12/25/C-并发编程-零/" data-title="C++并发编程 零 | Laziness Impatience Hubris" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -138,20 +159,20 @@ Quick">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/12/14/std-move与std-forward/" title="std::move与std::forward">
-  <strong>上一篇：</strong><br/>
-  <span>
-  std::move与std::forward</span>
+
+<div class="next">
+<a href="/2015/12/17/C++template1/"  title="C++ Template (一)">
+ <strong>下一篇：</strong><br/> 
+ <span>C++ Template (一)
+</span>
 </a>
 </div>
-
 
 </nav>
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/12/14/hello-world/" data-title="Hello World" data-url="http://yoursite.com/2015/12/14/hello-world/"></div>
+	<div class="ds-thread" data-thread-key="2015/12/25/C-并发编程-零/" data-title="C++并发编程 零" data-url="http://yoursite.com/2015/12/25/C-并发编程-零/"></div>
 </section>
 
 
@@ -161,7 +182,7 @@ Quick">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C++11__u52A0_u5165_u591A_u7EBF_u7A0B_u652F_u6301"><span class="toc-number">1.</span> <span class="toc-text">C++11 加入多线程支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5DF2_u5B8C_u6210_u7684_u8BB0_u5F55_u7D22_u5F15"><span class="toc-number">2.</span> <span class="toc-text">已完成的记录索引</span></a></li></ol>
  
   </div>
 

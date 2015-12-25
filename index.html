@@ -81,6 +81,77 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/12/25/C-并发编程-零/" title="C++并发编程 零" itemprop="url">C++并发编程 零</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Wei Yuhao" target="_blank" itemprop="author">Wei Yuhao</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-25T09:54:19.000Z" itemprop="datePublished"> 发表于 2015-12-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近在做C++并发编程相关的东西，看到C++11加入了不少好用的东西，就写点博客记录下来。</p>
+<h2 id="C++11__u52A0_u5165_u591A_u7EBF_u7A0B_u652F_u6301"><a href="#C++11__u52A0_u5165_u591A_u7EBF_u7A0B_u652F_u6301" class="headerlink" title="C++11 加入多线程支持"></a>C++11 加入多线程支持</h2><p>C++11标准开始支持多线程编程，在之前多线程都需要系统支持，比如*nix下的pthread相关。这次主要提供了以下几个头文件：</p>
+<ul>
+<li><p>&lt; thread&gt;：包含了std::thread类，以及this_thread命名空间下的yield(),get_id()等方法</p>
+</li>
+<li><p>&lt; mutex&gt;：包含了几种互斥锁，比如mutex,shared_mutex等；以及相关的方法</p>
+</li>
+<li><p>&lt; condition_variable&gt;：包含了条件变量相关的类</p>
+</li>
+<li><p>&lt; future&gt;：//这个应该是对异步操作的支持，后面看了再回来补充</p>
+</li>
+<li><p>&lt; atomic&gt; ：包含std::atomic和std::atomic_flag等，还有memory_order相关</p>
+</li>
+</ul>
+<h2 id="u5DF2_u5B8C_u6210_u7684_u8BB0_u5F55_u7D22_u5F15"><a href="#u5DF2_u5B8C_u6210_u7684_u8BB0_u5F55_u7D22_u5F15" class="headerlink" title="已完成的记录索引"></a>已完成的记录索引</h2>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/C-11/">C++11</a><a href="/tags/C-并发/">C++并发</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/12/25/C-并发编程-零/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/12/25/C-并发编程-零/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/12/17/C++template1/" title="C++ Template (一)" itemprop="url">C++ Template (一)</a>
   </h1>
   <p class="article-author">By
@@ -287,7 +358,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>2</sup></a></li>
+				<li><a href="/tags/C/" title="C++">C++<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>2</sup></a></li>
 			
 		
 			
@@ -295,7 +370,7 @@
 			
 		
 			
-				<li><a href="/tags/C-11/" title="C++11">C++11<sup>1</sup></a></li>
+				<li><a href="/tags/C-并发/" title="C++并发">C++并发<sup>1</sup></a></li>
 			
 		
 		</ul>
